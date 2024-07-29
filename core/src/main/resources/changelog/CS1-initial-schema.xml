@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="CS1" author="omaliarchuk">
+        <createTable tableName="course">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="number_of_lessons" type="SMALLINT"/>
+        </createTable>
+
+        <createTable tableName="user">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints unique="true"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="second_name" type="VARCHAR(255)"/>
+            <column name="user_roles" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="instructor">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="student">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="lesson">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="lesson_number" type="SMALLINT"/>
+            <column name="mark" type="SMALLINT"/>
+            <column name="course_id" type="BIGINT"/>
+            <column name="student_id" type="BIGINT"/>
+        </createTable>
+
+        <createTable tableName="course_instructors">
+            <column name="course_id" type="BIGINT"/>
+            <column name="instructors_id" type="BIGINT"/>
+        </createTable>
+
+        <createTable tableName="course_students">
+            <column name="course_id" type="BIGINT"/>
+            <column name="students_id" type="BIGINT"/>
+        </createTable>
+
+        <addPrimaryKey columnNames="course_id, instructors_id"
+                       constraintName="pk_course_instructors"
+                       tableName="course_instructors"/>
+
+        <addPrimaryKey columnNames="course_id, students_id"
+                       constraintName="pk_course_students"
+                       tableName="course_students"/>
+
+        <addForeignKeyConstraint baseTableName="instructor"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_instructor_user"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="student"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_student_user"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="lesson"
+                                 baseColumnNames="course_id"
+                                 constraintName="fk_lesson_course"
+                                 referencedTableName="course"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="lesson"
+                                 baseColumnNames="student_id"
+                                 constraintName="fk_lesson_student"
+                                 referencedTableName="student"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="course_instructors"
+                                 baseColumnNames="course_id"
+                                 constraintName="fk_course_instructors_course"
+                                 referencedTableName="course"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="course_instructors"
+                                 baseColumnNames="instructors_id"
+                                 constraintName="fk_course_instructors_instructor"
+                                 referencedTableName="instructor"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="course_students"
+                                 baseColumnNames="course_id"
+                                 constraintName="fk_course_students_course"
+                                 referencedTableName="course"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="course_students"
+                                 baseColumnNames="students_id"
+                                 constraintName="fk_course_students_student"
+                                 referencedTableName="student"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,10 @@
+version: 0.0
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: "arn:aws:ecs:us-east-1:252531803073:task-definition/course-system-task:2"
+        LoadBalancerInfo:
+          ContainerName: "course-system-container"
+          ContainerPort: 8080
+        PlatformVersion: "LATEST"

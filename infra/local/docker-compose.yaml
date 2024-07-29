@@ -1,0 +1,19 @@
+version: '3.8'
+
+#
+# The default variables for docker-compose stored in .env file.
+#
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db-dump/create-schema.sql:/docker-entrypoint-initdb.d/1-init-script.sql:Z
+    restart: unless-stopped

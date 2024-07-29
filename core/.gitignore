@@ -1,0 +1,19 @@
+# Maven files
+/target
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+# Eclipse
+/.project
+/.settings
+/.classpath
+/.factorypath
+/.apt_generated
+/src/main/java/META-INF/

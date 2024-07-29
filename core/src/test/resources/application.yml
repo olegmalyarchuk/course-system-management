@@ -1,0 +1,60 @@
+logging:
+  level:
+    web: debug
+    org:
+      hibernate:
+        SQL: DEBUG
+
+spring:
+  application:
+    name: course-system
+  main:
+    banner-mode: off
+  datasource:
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/course_system_db}
+    username: ${DATASOURCE_USERNAME:postgres}
+    password: ${DATASOURCE_PASSWORD:sombraPostgresql}
+  liquibase:
+    enabled: ${LIQUIBASE_ENABLED:true}
+    drop-first: ${LIQUIBASE_DROP_FIRST:true}
+    change-log: classpath:changelog/changelog-master.xml
+    default-schema: ${LQB_DEFAULT_SCHEMA:management}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    properties:
+      hibernate:
+        #change to false
+        show_sql: true
+        format_sql: false
+        generate_statistics: false
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2MB
+      max-file-size: 5MB
+      max-request-size: 10MB
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    region:
+      static: us-east-1
+    stack:
+      auto: false
+
+course:
+  passing-grade: 8
+
+application:
+  bucket:
+    name: course-system
+
+jwt:
+  secret: ${JWT_SECRET}
